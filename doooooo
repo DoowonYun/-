@@ -1,0 +1,68 @@
+import requests
+r = requests.get('http://ko.kliterature.wikidok.net/wp-d/57ea419ad7bdad5d015ffc5c/View')
+r.encoding = 'utf8'
+data = str(r.text)
+begin = data.find('<p>｢박제(剝製)가 되어 버린 천재(天才)」를 아시오?')
+end = data.rfind('한 번만 더 날아 보자꾸나.')
+end = end+22
+#print(data[begin:end])
+print('')
+print('')
+print('')
+words = data[begin:end]
+words = words.replace(',',' ')
+words = words.replace('”',' ')
+words = words.replace('“',' ')
+words = words.replace('</p>',' ')
+#words = words.replace('.',' ')
+words = words.replace('’',' ')
+words = words.replace('<a href="https://www vox com/policy-and-politics/2017/9/19/16333290/trump-full-speech-transcript-un-general-assembly">',' ')
+words = words.replace('</a>',' ')
+words = words.replace('<hr class="p-entry-hr" id="FWI34g">',' ')
+words = words.replace('[',' ')
+words = words.replace(']',' ')
+words = words.replace('">',' ')
+words = words.replace('<p id="',' ')
+words = words.replace('<p>',' ')
+words = words.replace('<div',' ')
+words = words.replace('</div>',' ')
+words = words.replace('<i', ' ')
+words = words.replace('o.', ' ')
+words = words.replace('</p>',' ')
+
+#print(words)
+mydict = {}
+b = words.split()
+#print('b',b)
+for w in b:
+    if w in mydict:
+        mydict[w] += 1
+    else:
+        mydict[w] = 1
+#for k in sorted(mydict, key=mydict.__getitem__, reverse=True):
+
+ #   print('단어 출현빈도 분석','%s: %s' %(k, mydict[k]))
+
+
+mydict2={}
+for w in b :
+    if w.find('.')!=-1:
+        if w[-2] in mydict2:
+            mydict2[w[-2]]+=1
+        else:
+            mydict2[w[-2]]=1
+
+for w in b :
+    if w.find('?')!= -1:
+        if w[-2] in mydict2:
+            mydict2[w[-2]]+=1
+        else:
+            mydict2[w[-2]]=1
+
+        
+c = sorted(mydict2, key=mydict2.__getitem__, reverse=True)
+
+print(type(c))
+
+print('가장 많은 종결 어미 20개:')
+print(c[:19])
